@@ -1,0 +1,9 @@
+<h1>Редактирование</h1>
+
+<%= render 'form', post: @post, buttonValue: :"Обновить статью" %>
+
+<div class="btn-group">
+    <%= link_to 'Смотреть', @post, :class => "btn btn-sm btn-outline-success" %>
+    <%= link_to "Удалить", post_path(@post), method: :delete, data: { confirm: 'Are you certain you want to delete this?' }, :class => "btn btn-sm btn-outline-danger"  %>  
+    <%= link_to 'Назад', posts_path, :class => "btn btn-sm btn-outline-secondary" %>   
+</div>

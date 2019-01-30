@@ -1,0 +1,18 @@
+<h3>Все новости</h3>
+<% @posts.each do |post| %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= post.title %></h5>
+      <em class="blog-post-meta">
+        <%= 
+          createdAt = Date.parse(post.created_at.to_s) 
+          createdAt.day.to_s + "." + createdAt.month.to_s + "." + createdAt.year.to_s
+        %>
+      </em>
+      <p class="card-text"><%= post.content[0..300] %>...</p>
+      <%= link_to 'Читать целиком', post, :class => "btn btn-outline-primary" %>                
+    </div>
+  </div>    
+  <br>
+<% end %>
+<!-- Date.strptime(post.created_at.to_s, "%d-%m-%Y").to_s -->

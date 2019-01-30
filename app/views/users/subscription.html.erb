@@ -1,0 +1,32 @@
+<h4>Редактирование подписки</h4> <br>
+
+<%= form_for @user, url: "update", method: :post  do |f| %>  
+   <% 
+      value = @user.subscription 
+      checked = {'day' => false, 'week' => false, 'nil' => false}
+      checked[value] = true         
+   %>
+
+  <p>Выберите тип:</p>   
+
+  <label class="radio-button-container">
+    Каждый день 
+    <%= f.radio_button :subscription, 'day', :checked => checked['day'] %>
+    <span class="checkmark"></span>
+  </label>
+  <label class="radio-button-container">
+    Еженедельно
+    <%= f.radio_button :subscription, 'week', :checked => checked['week'] %>
+    <span class="checkmark"></span>
+  </label>
+  <label class="radio-button-container">
+    Отказаться от подписки
+    <%= f.radio_button :subscription, 'nil', :checked => checked['nil'] %>
+    <span class="checkmark"></span>
+  </label>
+
+  <br>
+  <div class="actions">
+    <%= f.submit "Обновить параматры подписки", :class => "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Новостной дайджест</h1>    
+    <% @posts.each do |post| %>   
+        <h5 class="card-title"><%= post.title %></h5>
+        <em>
+            <% createdAt = Date.parse(post.created_at.to_s) %>
+            <%= createdAt.day.to_s + "." + createdAt.month.to_s + "." + createdAt.year.to_s %>
+        </em>
+        <p>
+            <%= post.content %>
+        </p>
+        <br>
+        <hr>            
+        <br>        
+    <% end %>
+  </body>
+</html>

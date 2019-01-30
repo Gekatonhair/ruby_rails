@@ -1,0 +1,26 @@
+<h4>Авторизация</h4>
+
+
+<br>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="form-group">    
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "Почта", :class => "form-control" %>
+  </div>
+
+  <div class="form-group">   
+    <%= f.password_field :password, autocomplete: "Пароль", :placeholder => "Пароль", :class => "form-control" %>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="form-group form-check">
+      <%= f.check_box :remember_me, :class => "form-check-input" %>
+      <%= f.label :remember_me, "Запомнить меня", :class => "form-check-label" %>
+    </div>
+  <% end -%>
+
+  <div class="actions">
+    <%= f.submit(:class => 'btn btn-primary',  :value => "Войти" ) %>
+  </div>
+<% end %>
+
+<%= render "users/shared/links" %>
