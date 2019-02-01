@@ -8,8 +8,8 @@ Rails.application.configure do
       address: 'smtp.mailgun.org',
       port: 587,
       domain: 'https://api.mailgun.net/v3/sandboxbb17573dc58d4afc882bb77a609c8198.mailgun.org',
-      user_name: 'postmaster@sandboxbb17573dc58d4afc882bb77a609c8198.mailgun.org',
-      password: '4f387f7fae788a17195a3020b388b8e2-2d27312c-4ab83cea',        
+      user_name: '',
+      password: '',        
   }
 
   # In the development environment your application's code is reloaded on
