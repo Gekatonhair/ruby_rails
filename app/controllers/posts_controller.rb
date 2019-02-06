@@ -4,24 +4,21 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.order('created_at DESC').all
-    #print @posts.inspect
+    @posts = Post.order('created_at DESC').all    
   end
 
   # GET /posts/1
   # GET /posts/1.json
-  def show
+  def show     
   end
 
   # GET /posts/new
   def new
     if !user_signed_in?
       redirect_to new_user_session_path
-    else       
-        #print "\n\nNO redirect\n\n"     
-        @post = Post.new
+    else
+      @post = Post.new
     end
-      
   end
 
   # GET /posts/1/edit
@@ -34,29 +31,38 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Пост успешно создан.' }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+    if user_signed_in?
+      @post = Post.new(post_params.merge(user: current_user))
+      respond_to do |format|
+        if @post.save
+          format.html { redirect_to @post, notice: 'Пост успешно создан.' }
+          format.json { render :show, status: :created, location: @post }
+        else
+          format.html { render :new }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_user_session_path
     end
   end
 
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Новость успешно обновлена' }
-        format.json { render :show, status: :ok, location: @post }
+    if user_signed_in?
+      if @post.user == current_user
+        respond_to do |format|
+          if @post.update(post_params)
+            format.html { redirect_to @post, notice: 'Новость успешно обновлена' }
+            format.json { render :show, status: :ok, location: @post }
+          else
+            format.html { render :edit }
+            format.json { render json: @post.errors, status: :unprocessable_entity }
+          end
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        flash[:notice] = "Ошибка: недостаточно прав!"       
       end
     end
   end
@@ -64,10 +70,16 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Новость успешно удалена' }
-      format.json { head :no_content }
+    if user_signed_in?
+      if @post.user == current_user
+        @post.destroy
+        respond_to do |format|
+          format.html { redirect_to posts_url, notice: 'Новость успешно удалена' }
+          format.json { head :no_content }
+        end
+      else
+        flash[:notice] = "Ошибка: недостаточно прав!"
+      end
     end
   end
 

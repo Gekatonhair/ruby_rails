@@ -1,4 +1,31 @@
-div."card"
-  div."card-body"
-    h5."card-title" = @post.title
-      
+div.card
+  div.card-body
+    
+    h5.card-title 
+      = @post.title.html_safe
+    
+    p.card-text 
+      = @post.content.html_safe       
+    
+    p.blog-post-meta.trix-content   
+      - if @post.user
+        - author = @post.user.login
+      -else 
+        - author = "RIP аккаунт"
+      = author
+      span,&nbsp
+      -createdAt = Date.parse(@post.created_at.to_s)
+      =createdAt.day.to_s + "." + createdAt.month.to_s + "." + createdAt.year.to_s         
+      -if user_signed_in? and @post.user
+        span&nbsp
+        -if current_user.users.include?(@post.user)#если текущий пользователь имеет ссылку на автора поста (значит он на него подписан)
+          =link_to "Отписаться", unsubscribe_path(user_id: @post.user), method: :post, :class => "btn btn-sm btn-outline-info"              
+        -else
+          =link_to "Подписаться", subscribe_path(user_id: @post.user), method: :post, :class => "btn btn-sm btn-outline-info"
+br
+
+div.btn-group
+  -if @post.user == current_user    
+    = link_to 'Править', edit_post_path(@post), :class => "btn btn-sm btn-outline-info"
+    = link_to "Удалить", post_path(@post), method: :delete, data: { confirm: 'Вы уверены, что хотите удалить эту новость?' }, :class => "btn btn-sm btn-outline-danger"
+  = link_to 'Назад', posts_path, :class => "btn btn-sm btn-outline-secondary"

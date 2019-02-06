@@ -1,14 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users  
+  devise_for :users
 
   root 'posts#index' , as: 'home'
-  
-  #get 'posts', as: 'user_root'
 
-  get 'users/subscription', to: 'users#subscription', as: 'users_subscription'
-  post 'users/update'   => 'users#update'
+  get 'users/subscription', to: 'users#subscription', as: 'users_subscription'  
+  get 'users/edit/extended', to: 'users#edit_extended', as: 'users_edit_extended'
+  get 'users/myposts', to: 'users#my_posts', as: 'users_my_posts'
+  post 'users/update', to: 'users#update'  
+  post 'users/subscribe', to: 'users#subscribe', as: 'subscribe'
+  post 'users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
 
-  resources :posts
   resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :posts
 end

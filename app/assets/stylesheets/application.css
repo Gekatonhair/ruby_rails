@@ -12,7 +12,12 @@
  *
  *= require_tree .
  *= require_self
+ *= require trix
  */
+
+ .blog-post-meta{
+   text-align: right;
+ }
 
 .blog-header-logo {
    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
