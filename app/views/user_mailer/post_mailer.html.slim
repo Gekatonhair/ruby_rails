@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    meta[content="text/html; charset=UTF-8" http-equiv="Content-Type"]
+  body
+    h1
+      | Новостной дайджест
+    - @posts.each do |post|
+      h5.card-title
+        = post.title
+      em
+        - createdAt = Date.parse(post.created_at.to_s)
+        = createdAt.day.to_s + "." + createdAt.month.to_s + "." + createdAt.year.to_s
+      p
+        = post.content
+      br
+      hr
+      br

@@ -1,0 +1,50 @@
+h4
+  | Редактирование пользователя
+br
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = devise_error_messages!
+
+  .form-group
+    = f.label :username, "Логин"
+    = f.text_field :username, autofocus: true, autocomplete: "on", :placeholder => "Логин ", :class => "form-control"
+
+  .form-group
+    = f.label :email, "Почта"
+    = f.email_field :email, autofocus: true, autocomplete: "on", :placeholder => "Почта", :class => "form-control"
+  
+  
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    .form-group
+      | Ожидается подтверждение для: 
+      = resource.unconfirmed_email
+  - if flash[:extended]
+    .form-group
+      i
+        | (Оставьте пустым, если вы не хотите менять пароль)
+      br
+      = f.password_field :password, autocomplete: "on", :placeholder => "Пароль", :class => "form-control"
+      - if @minimum_password_length
+        small.form-text.text-muted
+          | (
+          = @minimum_password_length
+          |  символов минимум)
+    .form-group
+      = f.password_field :password_confirmation, autocomplete: "on", :placeholder => "Повторите пароль", :class => "form-control"
+  - else
+    = link_to 'Сменить пароль', users_edit_extended_path, :class => "btn btn-sm btn-outline-secondary"
+    br
+  br
+  .form-group
+    = f.label :password, "Введите ваш текущий пароль, что бы сохранить изменения "
+    = f.password_field :current_password, autocomplete: "on", :placeholder => "Текущий пароль", :class => "form-control"
+  .actions
+    = f.submit(:class => 'btn btn-primary',  :value => "Обновить" )
+br
+.alert.alert-danger[role="alert"]
+  h4
+    | Удаление аккаунта
+  p
+    | Может, не надо? 
+    = button_to "Удалить аккаунт", registration_path(resource_name), data: { confirm: "Вы уверены?" }, method: :delete, :class => "btn btn-danger"
+.btn-group
+  = link_to 'Назад', :back, :class => "btn btn-sm btn-outline-secondary"

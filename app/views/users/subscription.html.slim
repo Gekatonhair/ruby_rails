@@ -1,0 +1,36 @@
+h4
+  | Редактирование подписки
+br
+h5
+  | Список авторов, на которых вы подписаны:
+ul.list-group
+  - authors = @user.users
+  - if authors.length == 0
+    p
+      | Вы еще ни на кого не подписались
+    - else authors.each do |author|
+      li.list-group-item.d-flex.justify-content-between.align-items-center
+        = author.email
+        = link_to "Отписаться", unsubscribe_path(user_id: author), method: :post, :class => "btn btn-sm btn-outline-info"
+br
+h5
+  | Выберите периодичность рассылки:
+= form_for @user, url: "update", method: :post  do |f|
+  - value = @user.subscription_type 
+  -       checked = {'day' => false, 'week' => false, 'nil' => false}
+  -       checked[value] = true
+  label.radio-button-container
+    |  Каждый день 
+    = f.radio_button :subscription_type, 'day', :checked => checked['day']
+    span.checkmark
+  label.radio-button-container
+    |  Еженедельно 
+    = f.radio_button :subscription_type, 'week', :checked => checked['week']
+    span.checkmark
+  label.radio-button-container
+    |  Отказаться от подписки 
+    = f.radio_button :subscription_type, 'nil', :checked => checked['nil']
+    span.checkmark
+  br
+  .actions
+    = f.submit "Обновить параматры подписки", :class => "btn btn-primary"

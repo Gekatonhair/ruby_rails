@@ -1,0 +1,16 @@
+= form_with(model: post, local: true) do |form|
+  - if post.errors.any?
+    #error_explanation
+      h2
+        = pluralize(post.errors.count, "error")
+        |  prohibited this post from being saved:
+      ul
+        - post.errors.full_messages.each do |message|
+          li
+            = message
+  .form-group
+    = form.text_field :title, :class => "form-control", placeholder: "Заголовок"
+  .form-group
+    = form.trix_editor :content, required: true, autofocus: true, :class => "editor", placeholder: "Новость"
+  .actions
+    = form.submit buttonValue, :class => "btn btn-outline-primary"
